@@ -1,0 +1,170 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <ion-buttons slot="start">
+      <ion-back-button (click)="goBack()"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detalle del Producto</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- Loading -->
+  <ion-spinner *ngIf="isLoading" name="circles"></ion-spinner>
+
+  <!-- Producto no encontrado -->
+  <div *ngIf="!isLoading && !product" class="ion-text-center ion-padding">
+    <ion-icon name="alert-circle-outline" size="large" color="danger"></ion-icon>
+    <h2>Producto no encontrado</h2>
+    <ion-button (click)="goBack()" color="primary" class="ion-margin-top">
+      Volver al catálogo
+    </ion-button>
+  </div>
+
+  <!-- Detalle del producto -->
+  <div *ngIf="!isLoading && product">
+
+    <!-- NOMBRE DEL PRODUCTO - GRANDE Y VISIBLE -->
+    <h1 class="product-title">{{ product.name }}</h1>
+
+    <!-- Imagen -->
+    <ion-card class="image-card">
+      <ion-img 
+        [src]="product.imageUrl" 
+        [alt]="product.name">
+      </ion-img>
+    </ion-card>
+
+    <!-- Información principal -->
+    <ion-card>
+      <ion-card-content>
+        <div class="info-row">
+          <span class="label">Categoría:</span>
+          <span class="value">{{ product.category }}</span>
+        </div>
+
+        <div class="info-row">
+          <span class="price">{{ product.price | currency:'PEN':'symbol':'1.2-2' }}</span>
+        </div>
+
+        <div class="info-row">
+          <ion-badge 
+            [color]="product.stock > 0 ? 'success' : 'danger'">
+            {{ product.stock > 0 ? 'En stock: ' + product.stock : 'Agotado' }}
+          </ion-badge>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Descripción -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Descripción</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>{{ product.description }}</p>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- SELECTOR DE CANTIDAD - MEJORADO ESTÉTICAMENTE -->
+    <ion-card class="quantity-card" *ngIf="product.stock > 0">
+      <ion-card-header class="qty-header-pink">
+        <ion-card-title class="qty-title">
+          <ion-icon name="layers-outline" slot="start"></ion-icon>
+          Seleccionar Cantidad
+        </ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content class="quantity-content">
+        <!-- Stock disponible info -->
+        <div class="stock-badge">
+          <ion-icon name="checkmark-circle" color="success"></ion-icon>
+          <span>{{ product.stock }} unidades disponibles</span>
+        </div>
+
+        <!-- Controles de cantidad - CON FLECHAS -->
+        <div class="quantity-controls-new">
+          <button 
+            class="qty-btn qty-btn-left"
+            (click)="decrementQuantity()"
+            [disabled]="quantity <= 1"
+            type="button"
+            aria-label="Disminuir cantidad">
+            &lt;
+          </button>
+          
+          <div class="qty-display-box">
+            <span class="qty-value">{{ quantity }}</span>
+            <span class="qty-label">unid.</span>
+          </div>
+          
+          <button 
+            class="qty-btn qty-btn-right"
+            (click)="incrementQuantity()"
+            [disabled]="quantity >= product.stock"
+            type="button"
+            aria-label="Aumentar cantidad">
+            &gt;
+          </button>
+        </div>
+
+        <!-- Input directo (opcional pero funcional) -->
+        <div class="qty-input-wrapper">
+          <label>O ingresa directamente:</label>
+          <input 
+            type="number" 
+            class="qty-direct-input"
+            [(ngModel)]="quantity"
+            [min]="1"
+            [max]="product.stock"
+            (change)="validateQuantity()">
+        </div>
+
+        <!-- Resumen de selección -->
+        <div class="qty-summary">
+          <div class="summary-item">
+            <span class="summary-label">Precio unitario:</span>
+            <span class="summary-value">{{ product.price | currency:'PEN':'symbol':'1.2-2' }}</span>
+          </div>
+          <div class="summary-item total">
+            <span class="summary-label">Subtotal:</span>
+            <span class="summary-value">{{ (product.price * quantity) | currency:'PEN':'symbol':'1.2-2' }}</span>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Botones de acción -->
+    <ion-button 
+      expand="full" 
+      color="danger"
+      (click)="addToCart()"
+      [disabled]="product.stock === 0"
+      class="ion-margin-top">
+      <ion-icon name="cart-outline" slot="start"></ion-icon>
+      Agregar al carrito
+    </ion-button>
+
+    <ion-button 
+      expand="full" 
+      fill="outline"
+      color="danger"
+      (click)="goToCart()"
+      class="ion-margin-top">
+      <ion-icon name="bag-handle-outline" slot="start"></ion-icon>
+      Ir al carrito
+    </ion-button>
+
+    <ion-button 
+      expand="full" 
+      fill="outline"
+      color="medium"
+      (click)="goBack()"
+      class="ion-margin-top ion-margin-bottom">
+      <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
+      Volver al catálogo
+    </ion-button>
+
+  </div>
+
+</ion-content>

@@ -1,0 +1,145 @@
+<!-- src/app/my-orders/my-orders.page.html -->
+
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mis Órdenes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- Loading -->
+  <ion-spinner *ngIf="isLoading" name="circles"></ion-spinner>
+
+  <!-- Lista de órdenes del usuario -->
+  <div *ngIf="!isLoading && userOrders.length > 0; else noOrders">
+
+    <ion-card *ngFor="let order of userOrders; trackBy: trackByOrderId" class="order-card">
+      <ion-card-header (click)="toggleOrderDetails(order.id)">
+        <ion-row class="ion-align-items-center">
+          <ion-col size="8">
+            <ion-card-title>{{ order.orderNumber }}</ion-card-title>
+            <ion-card-subtitle>{{ order.createdAt | date:'short' }}</ion-card-subtitle>
+          </ion-col>
+          <ion-col size="4" class="ion-text-end">
+            <ion-badge [color]="getStatusBadge(order.status)">
+              {{ getStatusLabel(order.status) }}
+            </ion-badge>
+          </ion-col>
+        </ion-row>
+      </ion-card-header>
+
+      <ion-card-content [id]="'order-' + order.id" class="order-details">
+
+        <!-- Información resumida -->
+        <ion-item lines="none" class="ion-margin-bottom">
+          <ion-label>
+            <p class="small">Total de la orden</p>
+            <h2 color="primary">{{ order.totalAmount | currency:'USD':'symbol':'1.2-2' }}</h2>
+          </ion-label>
+          <ion-text slot="end">
+            <p class="small">{{ order.items.length }} artículos</p>
+          </ion-text>
+        </ion-item>
+
+        <ion-item-divider color="light"></ion-item-divider>
+
+        <!-- Items de la orden -->
+        <div class="ion-margin-top">
+          <ion-item-divider color="light">
+            <ion-label>Productos</ion-label>
+          </ion-item-divider>
+
+          <ion-list *ngFor="let item of order.items" lines="inset">
+            <ion-item>
+              <ion-label>
+                <h3>{{ item.name }}</h3>
+                <p>{{ item.quantity }} x {{ item.price | currency:'USD':'symbol':'1.2-2' }}</p>
+              </ion-label>
+              <ion-text slot="end" color="primary">
+                <strong>{{ item.subtotal | currency:'USD':'symbol':'1.2-2' }}</strong>
+              </ion-text>
+            </ion-item>
+          </ion-list>
+        </div>
+
+        <!-- Información de envío -->
+        <ion-item-divider color="light" class="ion-margin-top"></ion-item-divider>
+
+        <ion-item lines="none" class="ion-margin-top">
+          <ion-icon name="location-outline" slot="start" color="primary"></ion-icon>
+          <ion-label>
+            <p class="small">Dirección de envío</p>
+            <h4>{{ order.shippingAddress }}</h4>
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="none">
+          <ion-icon name="card-outline" slot="start" color="primary"></ion-icon>
+          <ion-label>
+            <p class="small">Método de pago</p>
+            <h4>{{ order.paymentMethod }}</h4>
+          </ion-label>
+        </ion-item>
+
+        <!-- Timeline del estado -->
+        <ion-item-divider color="light" class="ion-margin-top"></ion-item-divider>
+
+        <div class="ion-padding status-timeline ion-margin-top">
+          <div class="timeline-item" [class.completed]="order.status !== 'Pending'">
+            <div class="timeline-dot"></div>
+            <div class="timeline-label">
+              <p><strong>Orden confirmada</strong></p>
+              <p class="small">{{ order.createdAt | date:'medium' }}</p>
+            </div>
+          </div>
+
+          <div class="timeline-item" [class.completed]="order.status === 'Shipped' || order.status === 'Delivered'">
+            <div class="timeline-dot"></div>
+            <div class="timeline-label">
+              <p><strong>En preparación / Enviada</strong></p>
+              <p class="small" *ngIf="order.status === 'Shipped' || order.status === 'Delivered'">
+                Tu orden está en camino
+              </p>
+              <p class="small" *ngIf="order.status === 'Pending'">
+                Estamos preparando tu orden
+              </p>
+            </div>
+          </div>
+
+          <div class="timeline-item" [class.completed]="order.status === 'Delivered'">
+            <div class="timeline-dot"></div>
+            <div class="timeline-label">
+              <p><strong>Entregada</strong></p>
+              <p class="small" *ngIf="order.status === 'Delivered'">
+                Tu orden ha sido entregada
+              </p>
+              <p class="small" *ngIf="order.status !== 'Delivered'">
+                Pronto llegará a tu puerta
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </ion-card-content>
+    </ion-card>
+
+  </div>
+
+  <!-- Sin órdenes -->
+  <ng-template #noOrders>
+    <div class="ion-text-center ion-padding empty-state">
+      <ion-icon name="cube-outline" size="large" color="medium"></ion-icon>
+      <h2>No tienes órdenes aún</h2>
+      <p>Comienza a comprar en nuestro catálogo</p>
+      <ion-button routerLink="/products" color="primary" class="ion-margin-top">
+        <ion-icon name="bag-outline" slot="start"></ion-icon>
+        Explorar catálogo
+      </ion-button>
+    </div>
+  </ng-template>
+
+</ion-content>

@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar color="success">
+    <ion-title>¡Pedido Confirmado!</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding ion-text-center">
+  
+  <ion-icon 
+    name="checkmark-circle" 
+    color="success" 
+    size="large" 
+    style="font-size: 8rem; margin-top: 30px;">
+  </ion-icon>
+  
+  <h1 class="ion-margin-top">¡Gracias por tu compra!</h1>
+  <p>Tu orden ha sido registrada exitosamente.</p>
+  
+  <ion-card class="ion-margin-vertical">
+    <ion-card-header>
+      <ion-card-subtitle>Número de Referencia</ion-card-subtitle>
+      <ion-card-title>#{{ referenceNumber }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>Recibirás un correo electrónico de confirmación con los detalles del envío.</p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-button 
+    expand="block" 
+    routerLink="/home" 
+    color="primary" 
+    class="ion-margin-top">
+    Volver al Catálogo
+  </ion-button>
+  
+</ion-content>

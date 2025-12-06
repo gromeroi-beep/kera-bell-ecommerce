@@ -1,0 +1,242 @@
+// Header
+ion-header {
+  ion-toolbar {
+    --background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
+  }
+}
+
+// Orders Header
+.orders-header {
+  margin-top: 20px;
+  margin-bottom: 20px;
+
+  h1 {
+    color: white;
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+  }
+
+  p {
+    color: #999;
+    font-size: 14px;
+    margin: 0;
+  }
+}
+
+// Status Filter
+.status-filter {
+  margin-bottom: 20px;
+
+  .status-segment {
+    --background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+// Order Card
+.order-card {
+  background: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  margin-bottom: 16px;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(245, 87, 108, 0.2);
+    border-color: #f5576c;
+  }
+}
+
+// Order Header
+ion-card-header {
+  background: linear-gradient(135deg, #1e1e1e 0%, #2a2a2a 100%);
+  padding: 16px;
+
+  .order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+
+    .order-number {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      h3 {
+        color: white;
+        font-size: 16px;
+        font-weight: 700;
+        margin: 0;
+      }
+
+      ion-badge {
+        width: fit-content;
+        font-size: 12px;
+        font-weight: 600;
+      }
+    }
+
+    .order-amount {
+      text-align: right;
+
+      .amount {
+        color: #f5576c;
+        font-size: 20px;
+        font-weight: 700;
+        margin: 0;
+      }
+    }
+  }
+}
+
+// Order Content
+ion-card-content {
+  padding: 16px;
+
+  .order-info {
+    margin-bottom: 16px;
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+      .label {
+        color: #999;
+        font-weight: 600;
+        font-size: 13px;
+      }
+
+      .value {
+        color: #ddd;
+        font-size: 13px;
+        text-align: right;
+      }
+    }
+  }
+
+  .order-items {
+    background: rgba(245, 87, 108, 0.1);
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+
+    .items-title {
+      color: #f5576c;
+      font-weight: 600;
+      font-size: 12px;
+      margin: 0 0 8px 0;
+    }
+
+    .item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 12px;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      .item-name {
+        color: #ddd;
+        flex: 1;
+      }
+
+      .item-qty {
+        color: #999;
+        margin: 0 12px;
+        min-width: 40px;
+        text-align: center;
+      }
+
+      .item-price {
+        color: #f5576c;
+        font-weight: 600;
+        min-width: 70px;
+        text-align: right;
+      }
+    }
+  }
+}
+
+// Action Buttons
+.action-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 0 16px 16px 16px;
+
+  ion-button {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 600;
+
+    &:first-child {
+      --color: #4facfe;
+    }
+
+    &:last-child {
+      --color: #ff6b9d;
+    }
+  }
+}
+
+// Empty State
+.empty-state {
+  background: #1e1e1e;
+  border: 2px dashed #f5576c;
+  text-align: center;
+  padding: 40px 20px;
+
+  ion-card-content {
+    padding: 0;
+
+    .empty-icon {
+      font-size: 64px;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      color: white;
+      font-size: 20px;
+      margin: 0 0 10px 0;
+    }
+
+    p {
+      color: #999;
+      font-size: 14px;
+      margin: 0;
+    }
+  }
+}
+
+// Spinner
+.spinner-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+// Responsive
+@media (max-width: 576px) {
+  ion-card-header .order-header {
+    flex-direction: column;
+    align-items: flex-start;
+
+    .order-amount {
+      text-align: left;
+    }
+  }
+
+  .action-buttons {
+    grid-template-columns: 1fr;
+  }
+}

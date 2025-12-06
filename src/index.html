@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Kera-Bell - Tienda de Belleza Premium</title>
+  <base href="/" />
+
+  <!-- Viewport -->
+  <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="description" content="Kera-Bell - Tienda de belleza premium. Encuentra los mejores productos de belleza de calidad superior." />
+  <meta name="theme-color" content="#ff3d9e" />
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Icons -->
+  <link rel="icon" type="image/png" href="assets/icon/favicon.png" />
+  <link rel="apple-touch-icon" href="assets/icon/apple-touch-icon.png" />
+
+  <!-- Status bar style (iOS) -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Kera-Bell" />
+
+  <!-- Google Play Store -->
+  <meta name="google-play-app" content="app-id=com.kerabell.shop" />
+
+  <!-- Open Graph (Redes Sociales) -->
+  <meta property="og:title" content="Kera-Bell" />
+  <meta property="og:description" content="Tienda de belleza premium - Productos de calidad superior" />
+  <meta property="og:image" content="assets/icon/og-image.png" />
+  <meta property="og:url" content="https://kerabell.com" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Kera-Bell" />
+  <meta name="twitter:description" content="Tienda de belleza premium" />
+  <meta name="twitter:image" content="assets/icon/twitter-image.png" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="global.scss" />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+    }
+    app-root {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <app-root></app-root>
+
+  <!-- Scripts -->
+  <noscript>
+    <p>Kera-Bell requiere JavaScript habilitado para funcionar correctamente.</p>
+  </noscript>
+
+  <!-- Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(reg => {
+            console.log('✅ Service Worker registrado:', reg);
+          })
+          .catch(err => {
+            console.log('❌ Error registrando Service Worker:', err);
+          });
+      });
+    }
+  </script>
+</body>
+</html>

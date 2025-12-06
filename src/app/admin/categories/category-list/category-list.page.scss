@@ -1,0 +1,251 @@
+// ============================================
+// LOADING STATE
+// ============================================
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  gap: 20px;
+
+  ion-spinner {
+    --color: var(--ion-color-primary);
+  }
+
+  p {
+    font-size: 16px;
+    color: var(--ion-color-medium);
+    font-weight: 500;
+  }
+}
+
+// ============================================
+// ESTADO VACÍO
+// ============================================
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+  padding: 40px 20px;
+
+  .empty-icon {
+    font-size: 80px;
+    color: var(--ion-color-medium);
+    margin-bottom: 20px;
+    opacity: 0.5;
+  }
+
+  h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--ion-text-color);
+    margin-bottom: 10px;
+  }
+
+  p {
+    font-size: 16px;
+    color: var(--ion-color-medium);
+    margin-bottom: 30px;
+    max-width: 300px;
+  }
+
+  ion-button {
+    margin-top: 20px;
+  }
+}
+
+// ============================================
+// HEADER
+// ============================================
+.categories-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--ion-color-light);
+
+  h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--ion-text-color);
+  }
+
+  p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--ion-color-medium);
+  }
+}
+
+// ============================================
+// GRID
+// ============================================
+.categories-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-top: 20px;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+// ============================================
+// CATEGORY CARD
+// ============================================
+.category-card {
+  background: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(245, 87, 108, 0.3);
+    border-color: #f5576c;
+  }
+
+  ion-card-header {
+    background: linear-gradient(135deg, #1e1e1e 0%, #2a2a2a 100%);
+    padding: 16px;
+
+    ion-card-title {
+      color: white;
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      ion-icon {
+        color: #f5576c;
+        font-size: 20px;
+      }
+    }
+  }
+
+  ion-card-content {
+    padding: 16px;
+    flex-grow: 1;
+  }
+
+  .category-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .info-item {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+
+      .label {
+        color: #999;
+        font-weight: 600;
+      }
+
+      .value {
+        color: #ccc;
+      }
+    }
+  }
+}
+
+// ============================================
+// BOTONES DE ACCIÓN
+// ============================================
+.action-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 0 16px 16px 16px;
+
+  ion-button {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 600;
+
+    &:first-child {
+      --color: #f5576c;
+    }
+
+    &:last-child {
+      --color: #ff6b9d;
+    }
+  }
+}
+
+// ============================================
+// FAB BUTTON CUSTOM (IGUAL AL DE PRODUCTOS)
+// ============================================
+.fab-button {
+  background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%) !important;
+  width: 70px !important;
+  height: 70px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 8px 24px rgba(245, 87, 108, 0.5) !important;
+  transition: all 0.3s ease !important;
+
+  .plus-icon {
+    color: white;
+    font-size: 48px;
+    font-weight: 300;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &:hover {
+    box-shadow: 0 12px 32px rgba(245, 87, 108, 0.7) !important;
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+// ============================================
+// SPINNER
+// ============================================
+.spinner-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+// ============================================
+// RESPONSIVE
+// ============================================
+@media (max-width: 576px) {
+  .categories-header {
+    h1 {
+      font-size: 20px;
+    }
+  }
+
+  .categories-list {
+    grid-template-columns: 1fr;
+  }
+}

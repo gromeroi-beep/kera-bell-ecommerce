@@ -1,0 +1,171 @@
+<!-- src/app/admin/order/order-list/order-list.page.html -->
+
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/admin"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Gestión de Órdenes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- Estadísticas -->
+  <ion-card *ngIf="getStats() as stats">
+    <ion-card-header>
+      <ion-card-title>Estadísticas de Órdenes</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="6" sizeMd="3">
+            <div class="stat-item">
+              <h3>{{ stats.total }}</h3>
+              <p>Total de órdenes</p>
+            </div>
+          </ion-col>
+          <ion-col size="6" sizeMd="3">
+            <div class="stat-item">
+              <h3 class="warning">{{ stats.pending }}</h3>
+              <p>Pendientes</p>
+            </div>
+          </ion-col>
+          <ion-col size="6" sizeMd="3">
+            <div class="stat-item">
+              <h3 class="primary">{{ stats.shipped }}</h3>
+              <p>Enviadas</p>
+            </div>
+          </ion-col>
+          <ion-col size="6" sizeMd="3">
+            <div class="stat-item">
+              <h3 class="success">{{ stats.delivered }}</h3>
+              <p>Entregadas</p>
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-margin-top">
+          <ion-col>
+            <h4>Ingresos totales: {{ stats.totalRevenue | currency:'PEN':'symbol':'1.2-2' }}</h4>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Filtro por estado -->
+  <ion-item class="ion-margin-bottom">
+    <ion-label>Filtrar por estado:</ion-label>
+    <ion-select 
+      [value]="selectedStatus" 
+      (ionChange)="onStatusChange($event)"
+      slot="end"
+    >
+      <ion-select-option value="all">Todas las órdenes</ion-select-option>
+      <ion-select-option value="Pending">Pendientes</ion-select-option>
+      <ion-select-option value="Shipped">Enviadas</ion-select-option>
+      <ion-select-option value="Delivered">Entregadas</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <!-- Loading -->
+  <ion-spinner *ngIf="isLoading" name="circles"></ion-spinner>
+
+  <!-- Lista de órdenes -->
+  <div *ngIf="!isLoading && filteredOrders.length > 0; else noOrders">
+    <ion-card *ngFor="let order of filteredOrders; trackBy: trackByOrderId">
+      <ion-card-header>
+        <ion-card-title>{{ order.orderNumber || order.id }}</ion-card-title>
+        <ion-card-subtitle>
+          {{ order.createdAt | date:'short' }}
+        </ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        
+        <!-- Información del cliente -->
+        <ion-item lines="none">
+          <ion-label>
+            <p><strong>Usuario:</strong> {{ order.userId }}</p>
+            <p><strong>Dirección:</strong> {{ order.shippingAddress }}</p>
+            <p><strong>Método de pago:</strong> {{ order.paymentMethod }}</p>
+          </ion-label>
+        </ion-item>
+
+        <!-- Items de la orden -->
+        <ion-item-divider color="light">
+          <ion-label>Productos ({{ order.items.length }})</ion-label>
+        </ion-item-divider>
+
+        <ion-list *ngFor="let item of order.items" lines="none">
+          <ion-item>
+            <ion-label>
+              <h3>{{ item.name }}</h3>
+              <p>Cantidad: {{ item.quantity }} x {{ item.price | currency:'PEN':'symbol':'1.2-2' }}</p>
+              <p><strong>Subtotal:</strong> {{ item.subtotal | currency:'PEN':'symbol':'1.2-2' }}</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+
+        <!-- Total y estado -->
+        <ion-item-divider color="light" class="ion-margin-top">
+          <ion-label>
+            <h3>Total: {{ order.totalAmount | currency:'PEN':'symbol':'1.2-2' }}</h3>
+          </ion-label>
+        </ion-item-divider>
+
+        <!-- Estado actual -->
+        <ion-item class="ion-margin-top">
+          <ion-label>
+            <p><strong>Estado actual:</strong></p>
+          </ion-label>
+          <ion-badge 
+            [color]="getStatusBadge(order.status)" 
+            slot="end"
+          >
+            {{ getStatusLabel(order.status) }}
+          </ion-badge>
+        </ion-item>
+
+        <!-- Acciones -->
+        <ion-item-divider class="ion-margin-top"></ion-item-divider>
+        <ion-item lines="none">
+          <ion-label>Cambiar estado:</ion-label>
+          <ion-select 
+            slot="end"
+            [value]="order.status"
+            (ionChange)="updateOrderStatus(order.id, $event.detail.value)"
+          >
+            <ion-select-option value="Pending">Pendiente</ion-select-option>
+            <ion-select-option value="Shipped">Enviar</ion-select-option>
+            <ion-select-option value="Delivered">Entregada</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-buttons class="ion-margin-top">
+          <ion-button 
+            fill="outline" 
+            color="danger" 
+            (click)="deleteOrder(order.id, order.orderNumber)"
+            [disabled]="isDeleting"
+            expand="full"
+          >
+            <ion-icon name="trash-outline" slot="start"></ion-icon>
+            Eliminar Orden
+          </ion-button>
+        </ion-buttons>
+
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Sin órdenes -->
+  <ng-template #noOrders>
+    <div class="ion-text-center ion-padding">
+      <ion-icon name="cube-outline" size="large" color="medium"></ion-icon>
+      <h2>No hay órdenes</h2>
+      <p>Aún no hay órdenes para mostrar.</p>
+    </div>
+  </ng-template>
+
+</ion-content>

@@ -1,0 +1,162 @@
+<ion-content class="register-bg" fullscreen>
+  <div class="register-wrapper">
+    
+    <!-- CONTENEDOR PRINCIPAL -->
+    <div class="register-container">
+
+      <!-- HEADER -->
+      <div class="header-section">
+        <ion-icon name="person-add-outline" class="header-icon"></ion-icon>
+        <h1 class="title">Crear Cuenta</h1>
+        <p class="subtitle">Únete a Kera-Bell hoy mismo</p>
+      </div>
+
+      <!-- FORMULARIO -->
+      <form [formGroup]="form" (ngSubmit)="register()" class="register-form">
+
+        <!-- NOMBRE INPUT -->
+        <div class="form-group">
+          <ion-item class="input-item" [class.focused]="nameFocused">
+            <ion-icon name="person-outline" slot="start" class="input-icon"></ion-icon>
+            <ion-input
+              type="text"
+              placeholder="Juan García López"
+              formControlName="name"
+              (ionFocus)="nameFocused = true"
+              (ionBlur)="nameFocused = false"
+              clearInput>
+            </ion-input>
+            <ion-icon 
+              *ngIf="form.get('name')?.valid && form.get('name')?.value"
+              name="checkmark-circle" 
+              slot="end" 
+              class="icon-success">
+            </ion-icon>
+          </ion-item>
+          <div *ngIf="form.get('name')?.invalid && form.get('name')?.touched" class="error-message">
+            <ion-icon name="alert-circle-outline"></ion-icon>
+            <span>El nombre es requerido</span>
+          </div>
+        </div>
+
+        <!-- EMAIL INPUT -->
+        <div class="form-group">
+          <ion-item class="input-item" [class.focused]="emailFocused">
+            <ion-icon name="mail-outline" slot="start" class="input-icon"></ion-icon>
+            <ion-input
+              type="email"
+              placeholder="tu@correo.com"
+              formControlName="email"
+              (ionFocus)="emailFocused = true"
+              (ionBlur)="emailFocused = false"
+              clearInput>
+            </ion-input>
+            <ion-icon 
+              *ngIf="form.get('email')?.valid && form.get('email')?.value"
+              name="checkmark-circle" 
+              slot="end" 
+              class="icon-success">
+            </ion-icon>
+          </ion-item>
+          <div *ngIf="form.get('email')?.invalid && form.get('email')?.touched" class="error-message">
+            <ion-icon name="alert-circle-outline"></ion-icon>
+            <span *ngIf="form.get('email')?.errors?.['required']">El correo es requerido</span>
+            <span *ngIf="form.get('email')?.errors?.['email']">Correo inválido</span>
+          </div>
+        </div>
+
+        <!-- PASSWORD INPUT -->
+        <div class="form-group">
+          <ion-item class="input-item" [class.focused]="passwordFocused">
+            <ion-icon name="lock-closed-outline" slot="start" class="input-icon"></ion-icon>
+            <ion-input
+              [type]="showPassword ? 'text' : 'password'"
+              placeholder="Mínimo 6 caracteres"
+              formControlName="password"
+              (ionFocus)="passwordFocused = true"
+              (ionBlur)="passwordFocused = false">
+            </ion-input>
+            <ion-button
+              fill="clear"
+              slot="end"
+              (click)="togglePassword()"
+              type="button"
+              class="eye-button">
+              <ion-icon
+                [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
+                class="eye-icon">
+              </ion-icon>
+            </ion-button>
+          </ion-item>
+          <div *ngIf="form.get('password')?.invalid && form.get('password')?.touched" class="error-message">
+            <ion-icon name="alert-circle-outline"></ion-icon>
+            <span>Mínimo 6 caracteres</span>
+          </div>
+        </div>
+
+        <!-- CONFIRM PASSWORD INPUT -->
+        <div class="form-group">
+          <ion-item class="input-item" [class.focused]="confirmPasswordFocused">
+            <ion-icon name="lock-open-outline" slot="start" class="input-icon"></ion-icon>
+            <ion-input
+              [type]="showConfirmPassword ? 'text' : 'password'"
+              placeholder="Confirma tu contraseña"
+              formControlName="confirmPassword"
+              (ionFocus)="confirmPasswordFocused = true"
+              (ionBlur)="confirmPasswordFocused = false">
+            </ion-input>
+            <ion-button
+              fill="clear"
+              slot="end"
+              (click)="toggleConfirmPassword()"
+              type="button"
+              class="eye-button">
+              <ion-icon
+                [name]="showConfirmPassword ? 'eye-off-outline' : 'eye-outline'"
+                class="eye-icon">
+              </ion-icon>
+            </ion-button>
+          </ion-item>
+          <div *ngIf="form.get('confirmPassword')?.invalid && form.get('confirmPassword')?.touched" class="error-message">
+            <ion-icon name="alert-circle-outline"></ion-icon>
+            <span *ngIf="form.get('confirmPassword')?.errors?.['required']">Confirma tu contraseña</span>
+            <span *ngIf="form.get('confirmPassword')?.errors?.['passwordMismatch']">Las contraseñas no coinciden</span>
+          </div>
+        </div>
+
+        <!-- TÉRMINOS Y CONDICIONES -->
+        <div class="terms-section">
+          <ion-checkbox 
+            formControlName="terms"
+            class="terms-checkbox">
+          </ion-checkbox>
+          <span class="terms-text">Acepto los términos y condiciones</span>
+        </div>
+
+        <!-- BOTÓN REGISTRAR -->
+        <ion-button 
+          expand="block" 
+          type="submit" 
+          class="btn-register"
+          [disabled]="form.invalid || isLoading"
+          (click)="register()">
+          <ion-spinner *ngIf="isLoading" name="crescent" class="spinner-button"></ion-spinner>
+          <span *ngIf="!isLoading">Crear Cuenta</span>
+          <span *ngIf="isLoading">Creando...</span>
+        </ion-button>
+
+      </form>
+
+      <!-- DIVIDER -->
+      <div class="divider-section">
+        <span class="divider-text">¿Ya tienes cuenta?</span>
+      </div>
+
+      <!-- LOGIN LINK -->
+      <div class="login-section">
+        <a routerLink="/login" class="login-link">Inicia sesión aquí</a>
+      </div>
+
+    </div>
+  </div>
+</ion-content>

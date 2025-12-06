@@ -1,0 +1,50 @@
+.register-container {
+  max-width: 380px;
+  margin: 60px auto;
+  padding: 25px;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.12);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 7px;
+  border: 1px solid #ccc;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border: none;
+  background: #28a745;
+  color: white;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+button:disabled {
+  background: #7ac790;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+}
+
+.error-message {
+  text-align: center;
+  color: red;
+  margin-top: 10px;
+}

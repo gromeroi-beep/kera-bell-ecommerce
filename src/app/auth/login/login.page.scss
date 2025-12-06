@@ -1,0 +1,458 @@
+// ============================
+// VARIABLES
+// ============================
+$primary: #ff3d9e;
+$primary-dark: #e7358e;
+$primary-light: #ff69b4;
+$white: #ffffff;
+$dark: #222428;
+$text: #666;
+$error: #eb445a;
+$success: #2dd36f;
+$background: linear-gradient(135deg, #ff4fa8 0%, #ff8dcf 100%);
+
+// ============================
+// ESTRUCTURA PRINCIPAL
+// ============================
+ion-content.login-bg {
+  --background: #{$background};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.login-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.login-container {
+  width: 100%;
+  max-width: 380px;
+  animation: slideUp 0.5s ease-out;
+}
+
+// ============================
+// ANIMACIONES
+// ============================
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+// ============================
+// LOGO
+// ============================
+.logo-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 35px;
+  animation: fadeIn 0.6s ease-out 0.1s both;
+}
+
+.logo {
+  width: 160px;
+  height: 160px;
+  border-radius: 28px;
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.28);
+  background: white;
+  padding: 16px;
+  object-fit: contain;
+  transition: all 0.3s ease;
+  animation: bounce 2s infinite;
+  display: block;
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+// ============================
+// HEADER SECTION
+// ============================
+.header-section {
+  text-align: center;
+  margin-bottom: 40px;
+  animation: fadeIn 0.6s ease-out 0.2s both;
+}
+
+.title {
+  font-size: 2.8rem;
+  font-weight: 900;
+  color: $white;
+  margin: 0 0 10px 0;
+  letter-spacing: -1px;
+  text-shadow: 0 3px 15px rgba(0, 0, 0, 0.15);
+  font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  font-style: italic;
+  text-transform: capitalize;
+}
+
+.subtitle {
+  color: rgba($white, 0.95);
+  font-size: 1rem;
+  margin: 0;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+// ============================
+// FORMULARIO
+// ============================
+.login-form {
+  animation: fadeIn 0.6s ease-out 0.3s both;
+}
+
+.form-group {
+  margin-bottom: 24px;
+  animation: slideUp 0.5s ease-out;
+}
+
+// ============================
+// INPUT ITEMS
+// ============================
+.input-item {
+  border-radius: 16px;
+  margin: 0;
+  --background: rgba(255, 255, 255, 0.88);
+  --border-bottom: none;
+  --padding-start: 18px;
+  --padding-end: 16px;
+  --inner-padding-end: 0;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  height: 56px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+
+  &.focused {
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.18);
+    transform: translateY(-4px);
+    --background: $white;
+    border-color: $primary;
+  }
+
+  ion-icon.input-icon {
+    font-size: 1.4rem;
+    color: $primary;
+    margin-right: 14px;
+    transition: all 0.3s ease;
+    opacity: 0.85;
+  }
+
+  &.focused ion-icon.input-icon {
+    color: $primary-dark;
+    font-size: 1.6rem;
+    opacity: 1;
+  }
+
+  ion-input {
+    font-size: 1rem;
+    font-weight: 500;
+    color: $dark;
+
+    &::placeholder {
+      opacity: 0.65;
+      color: #999;
+      font-weight: 400;
+    }
+  }
+
+  ion-icon.icon-success {
+    font-size: 1.5rem;
+    color: $success;
+    animation: pulse 0.6s ease-out;
+    margin-right: 8px;
+  }
+}
+
+// ============================
+// EYE BUTTON
+// ============================
+.eye-button {
+  --padding-start: 0;
+  --padding-end: 0;
+  --margin-start: 8px;
+  --margin-end: 0;
+  margin-right: 8px;
+}
+
+.eye-icon {
+  font-size: 1.3rem;
+  color: $primary;
+  transition: all 0.3s ease;
+
+  &:hover {
+    color: $primary-dark;
+  }
+}
+
+// ============================
+// ERROR MESSAGES
+// ============================
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 0.85rem;
+  color: $white;
+  padding: 0 4px;
+  animation: slideUp 0.3s ease-out;
+
+  ion-icon {
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  span {
+    font-weight: 500;
+  }
+}
+
+// ============================
+// BOTÓN LOGIN
+// ============================
+.btn-login {
+  --background: $primary;
+  --background-activated: $primary-dark;
+  --background-hover: $primary-dark;
+  --color: $white;
+  --border-radius: 12px;
+  --padding-start: 24px;
+  --padding-end: 24px;
+  --height: 56px;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+  margin-top: 16px;
+  box-shadow: 0 6px 20px rgba($primary, 0.3);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  &:hover:not([disabled]) {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba($primary, 0.4);
+  }
+
+  &:active:not([disabled]) {
+    transform: translateY(-1px);
+  }
+
+  &[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.spinner-button {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+  color: $white;
+}
+
+// ============================
+// DIVIDER
+// ============================
+.divider-section {
+  display: flex;
+  align-items: center;
+  margin: 32px 0 24px 0;
+  gap: 16px;
+
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba($white, 0.3);
+  }
+}
+
+.divider-text {
+  color: rgba($white, 0.9);
+  font-size: 0.9rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+// ============================
+// REGISTER SECTION
+// ============================
+.register-section {
+  text-align: center;
+  animation: fadeIn 0.6s ease-out 0.4s both;
+}
+
+.register-text {
+  margin: 0;
+  font-size: 0.95rem;
+  color: rgba($white, 0.95);
+}
+
+.register-link {
+  color: #ffeb3b;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border-bottom: 2px solid transparent;
+
+  &:hover {
+    color: $white;
+    border-bottom-color: $white;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+// ============================
+// FOOTER SECTION
+// ============================
+.footer-section {
+  text-align: center;
+  margin-top: 24px;
+  animation: fadeIn 0.6s ease-out 0.5s both;
+}
+
+.forgot-password {
+  color: rgba($white, 0.85);
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: inline-block;
+  padding-bottom: 2px;
+  border-bottom: 1px solid transparent;
+
+  &:hover {
+    color: $white;
+    border-bottom-color: rgba($white, 0.5);
+  }
+}
+
+// ============================
+// RESPONSIVE
+// ============================
+@media (max-width: 576px) {
+  .login-container {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .logo {
+    width: 130px;
+    height: 130px;
+    padding: 12px;
+  }
+
+  .logo-container {
+    margin-bottom: 30px;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+  }
+
+  .input-item {
+    height: 52px;
+
+    ion-icon.input-icon {
+      font-size: 1.2rem;
+    }
+  }
+
+  .btn-login {
+    --height: 52px;
+    font-size: 0.95rem;
+  }
+
+  .divider-section {
+    margin: 24px 0 20px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-wrapper {
+    padding: 16px;
+  }
+
+  .logo-container {
+    margin-bottom: 24px;
+  }
+
+  .logo {
+    width: 120px;
+    height: 120px;
+    padding: 10px;
+  }
+
+  .title {
+    font-size: 1.8rem;
+  }
+
+  .subtitle {
+    font-size: 0.85rem;
+  }
+
+  .header-section {
+    margin-bottom: 32px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .input-item {
+    height: 50px;
+  }
+
+  .btn-login {
+    --height: 50px;
+  }
+}

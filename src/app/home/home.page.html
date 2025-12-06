@@ -1,0 +1,143 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <ion-title slot="start">Kera-Bell</ion-title>
+    
+    <ion-buttons slot="end" class="cart-wrapper">
+      <button class="custom-cart-btn" (click)="goToCart()">
+        <ion-icon name="cart"></ion-icon>
+        <span class="badge" *ngIf="cartItemCount$ | async as count">
+          {{ count }}
+        </span>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- HERO BANNER -->
+  <ion-card color="light" class="hero-card">
+    <ion-card-content class="ion-text-center ion-padding">
+      <h1 class="hero-title">¡Bienvenido a Kera-Bell!</h1>
+      <p class="hero-subtitle">Encuentra los mejores productos de belleza premium</p>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- SEARCH BAR -->
+  <div class="search-container ion-margin-vertical">
+    <ion-searchbar 
+      placeholder="Buscar productos..." 
+      [(ngModel)]="searchTerm"
+      (ionChange)="onSearch($event)"
+      color="light">
+    </ion-searchbar>
+  </div>
+
+  <!-- LOADING STATE -->
+  <div *ngIf="isLoading" class="loading-container ion-padding">
+    <ion-spinner name="circles" color="primary"></ion-spinner>
+    <p class="ion-text-center">Cargando productos...</p>
+  </div>
+
+  <!-- PRODUCTOS DESTACADOS -->
+  <div *ngIf="!isLoading && (filteredProducts$ | async)?.length; else noProducts">
+    
+    <ion-item-divider color="light" class="products-divider">
+      <ion-label>
+        <h2>Productos Destacados</h2>
+      </ion-label>
+    </ion-item-divider>
+
+    <!-- GRID DE PRODUCTOS -->
+    <ion-grid class="products-grid">
+      <ion-row>
+        <ion-col 
+          size="12" 
+          sizeSm="6" 
+          sizeMd="6" 
+          sizeLg="4"
+          *ngFor="let product of filteredProducts$ | async; trackBy: trackByProductId"
+          class="product-col">
+          
+          <ion-card class="product-card">
+            
+            <!-- IMAGEN DEL PRODUCTO -->
+            <ion-img 
+              [src]="product.imageUrl" 
+              [alt]="product.name"
+              class="product-image">
+            </ion-img>
+            
+            <!-- CONTENIDO DE LA CARD -->
+            <ion-card-content class="product-content">
+              
+              <!-- NOMBRE Y PRECIO -->
+              <div class="product-header">
+                <ion-card-title class="product-title">
+                  {{ product.name | slice:0:30 }}
+                </ion-card-title>
+                <p class="product-price">
+                  {{ product.price | currency:'PEN':'symbol':'1.2-2' }}
+                </p>
+              </div>
+
+              <!-- DESCRIPCIÓN -->
+              <p class="product-description">
+                {{ product.description | slice:0:60 }}...
+              </p>
+
+              <!-- BOTÓN VER DETALLE -->
+              <ion-button 
+                expand="full" 
+                color="secondary"
+                (click)="viewProduct(product.id)"
+                class="btn-detalle">
+                <ion-icon name="eye-outline" slot="start"></ion-icon>
+                Ver Detalle
+              </ion-button>
+
+              <!-- BOTÓN AGREGAR AL CARRITO -->
+              <ion-button 
+                expand="full" 
+                color="primary"
+                fill="outline"
+                (click)="addToCart(product.id)"
+                class="btn-carrito">
+                <ion-icon name="cart-outline" slot="start"></ion-icon>
+                Agregar
+              </ion-button>
+
+            </ion-card-content>
+          </ion-card>
+
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <!-- VER TODOS LOS PRODUCTOS -->
+    <div class="view-all-container ion-text-center ion-padding-vertical">
+      <ion-button 
+        fill="outline" 
+        color="primary"
+        size="large"
+        (click)="viewAllProducts()">
+        <ion-icon name="arrow-forward-outline" slot="end"></ion-icon>
+        Ver Todos los Productos
+      </ion-button>
+    </div>
+  </div>
+
+  <!-- ESTADO VACÍO -->
+  <ng-template #noProducts>
+    <div class="empty-state ion-padding-vertical">
+      <ion-icon name="cube-outline" color="medium" class="empty-icon"></ion-icon>
+      <h2 class="empty-title">No hay productos disponibles</h2>
+      <p class="empty-subtitle">Vuelve pronto para ver nuestras ofertas especiales</p>
+      <ion-button color="primary" (click)="loadProducts()">
+        <ion-icon name="refresh-outline" slot="start"></ion-icon>
+        Reintentar
+      </ion-button>
+    </div>
+  </ng-template>
+
+</ion-content>

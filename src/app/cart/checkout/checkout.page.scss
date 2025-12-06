@@ -1,0 +1,99 @@
+// src/app/cart/checkout/checkout.page.scss
+
+ion-header {
+  ion-toolbar {
+    --background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
+  }
+}
+
+ion-card {
+  border-radius: 12px;
+  margin-bottom: 16px;
+  background: #1e1e1e;
+  border: 1px solid #333;
+}
+
+ion-card-header {
+  background: linear-gradient(135deg, #2a2a2a 0%, #1e1e1e 100%);
+  padding: 16px;
+
+  ion-card-title {
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+  }
+}
+
+ion-card-content {
+  padding: 16px;
+
+  ion-item {
+    --background: transparent;
+    --border-color: #333;
+
+    ion-label {
+      color: #ccc;
+      font-size: 14px;
+    }
+
+    ion-input {
+      --color: white;
+      --placeholder-color: #999;
+    }
+
+    ion-select {
+      --color: white;
+    }
+  }
+}
+
+ion-item-divider {
+  background: transparent;
+  border-bottom: 1px solid #333;
+
+  ion-label {
+    color: white;
+    font-weight: 600;
+  }
+}
+
+ion-button {
+  margin: 8px 0;
+  font-weight: 600;
+
+  &[color="success"] {
+    --background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
+  }
+}
+
+ion-list {
+  background: transparent;
+
+  ion-item {
+    --background: transparent;
+    --border-color: #333;
+    border-bottom: 1px solid #333;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}
+
+ion-text {
+  color: #ccc;
+}
+
+.ion-margin-top {
+  margin-top: 16px;
+}
+
+.ion-padding {
+  padding: 16px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}

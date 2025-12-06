@@ -1,0 +1,316 @@
+// ============================================
+// LOADING STATE
+// ============================================
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  gap: 20px;
+
+  ion-spinner {
+    --color: var(--ion-color-primary);
+  }
+
+  p {
+    font-size: 16px;
+    color: var(--ion-color-medium);
+    font-weight: 500;
+  }
+}
+
+// ============================================
+// ESTADO VACÍO
+// ============================================
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+  padding: 40px 20px;
+
+  .empty-icon {
+    font-size: 80px;
+    color: var(--ion-color-medium);
+    margin-bottom: 20px;
+    opacity: 0.5;
+  }
+
+  h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--ion-text-color);
+    margin-bottom: 10px;
+  }
+
+  p {
+    font-size: 16px;
+    color: var(--ion-color-medium);
+    max-width: 300px;
+  }
+}
+
+// ============================================
+// HEADER
+// ============================================
+.users-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--ion-color-light);
+
+  h2 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--ion-text-color);
+
+    .badge {
+      background: var(--ion-color-primary);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 18px;
+      margin-left: 8px;
+      font-weight: 700;
+    }
+  }
+}
+
+// ============================================
+// GRID
+// ============================================
+.users-grid {
+  padding: 0;
+  margin: 0;
+}
+
+// ============================================
+// USER CARD
+// ============================================
+.user-card {
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  margin-bottom: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  &:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    transform: translateY(-4px);
+  }
+
+  ion-card-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+  }
+}
+
+// ============================================
+// USER HEADER (Avatar + Badge)
+// ============================================
+.user-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 16px;
+  background: linear-gradient(135deg, var(--ion-color-primary) 0%, #0a5ed9 100%);
+
+  .user-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 28px;
+    font-weight: 700;
+    border: 3px solid white;
+  }
+
+  .role-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+}
+
+// ============================================
+// NOMBRE
+// ============================================
+.user-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ion-text-color);
+  margin: 12px 0 8px 0;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// ============================================
+// EMAIL
+// ============================================
+.user-email {
+  font-size: 14px;
+  color: var(--ion-color-medium);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0;
+
+  ion-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+}
+
+// ============================================
+// FECHA
+// ============================================
+.user-date {
+  font-size: 13px;
+  color: var(--ion-color-medium);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0 12px 0;
+
+  ion-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+}
+
+// ============================================
+// INFO DE USUARIO
+// ============================================
+.user-info {
+  background: var(--ion-color-light);
+  border-radius: 8px;
+  padding: 12px;
+  margin: 12px 0;
+  font-size: 12px;
+
+  .info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .info-label {
+      font-weight: 600;
+      color: var(--ion-color-medium);
+    }
+
+    .info-value {
+      color: var(--ion-text-color);
+      font-weight: 500;
+
+      &.info-id {
+        font-family: 'Courier New', monospace;
+        font-size: 11px;
+        max-width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+  }
+}
+
+// ============================================
+// BOTONES DE ACCIÓN
+// ============================================
+.user-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--ion-color-light);
+
+  .action-btn {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-size: 12px;
+    --box-shadow: none;
+
+    &.role-btn {
+      &:disabled {
+        --background: var(--ion-color-medium);
+        opacity: 0.6;
+      }
+    }
+
+    &.delete-btn {
+      &:disabled {
+        --background: var(--ion-color-medium);
+        opacity: 0.6;
+      }
+    }
+  }
+}
+
+// ============================================
+// RESPONSIVE
+// ============================================
+@media (max-width: 576px) {
+  .users-header h2 {
+    font-size: 18px;
+
+    .badge {
+      font-size: 14px;
+    }
+  }
+
+  .user-card {
+    margin-bottom: 16px;
+  }
+
+  .user-avatar {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+  }
+
+  .user-name {
+    font-size: 16px;
+  }
+
+  .user-actions {
+    .action-btn {
+      width: 100%;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .users-header {
+    margin-bottom: 32px;
+  }
+}

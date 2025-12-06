@@ -1,0 +1,132 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/admin/products"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ pageTitle }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  
+  <form [formGroup]="productForm" (ngSubmit)="saveProduct()">
+    
+    <!-- NOMBRE -->
+    <ion-item>
+      <ion-label position="floating">Nombre del Producto *</ion-label>
+      <ion-input 
+        formControlName="name" 
+        type="text"
+        clearInput>
+      </ion-input>
+    </ion-item>
+    <div *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched" class="ion-padding-start error-message">
+      <p *ngIf="productForm.get('name')?.errors?.['required']">El nombre es obligatorio</p>
+      <p *ngIf="productForm.get('name')?.errors?.['minlength']">El nombre debe tener al menos 3 caracteres</p>
+    </div>
+
+    <!-- CATEGORÍA -->
+    <ion-item>
+      <ion-label position="floating">Categoría *</ion-label>
+      <ion-select 
+        formControlName="category"
+        placeholder="Selecciona una categoría">
+        <ion-select-option 
+          *ngFor="let cat of getCategories()" 
+          [value]="cat.name">
+          {{ cat.name }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <div *ngIf="productForm.get('category')?.invalid && productForm.get('category')?.touched" class="ion-padding-start error-message">
+      <p *ngIf="productForm.get('category')?.errors?.['required']">Selecciona una categoría</p>
+    </div>
+
+    <!-- PRECIO -->
+    <ion-item>
+      <ion-label position="floating">Precio (S/) *</ion-label>
+      <ion-input 
+        formControlName="price" 
+        type="number"
+        inputmode="decimal"
+        step="0.01"
+        min="0.01">
+      </ion-input>
+    </ion-item>
+    <div *ngIf="productForm.get('price')?.invalid && productForm.get('price')?.touched" class="ion-padding-start error-message">
+      <p *ngIf="productForm.get('price')?.errors?.['required']">El precio es obligatorio</p>
+      <p *ngIf="productForm.get('price')?.errors?.['min']">El precio debe ser mayor a 0</p>
+    </div>
+
+    <!-- STOCK -->
+    <ion-item>
+      <ion-label position="floating">Stock (Cantidad) *</ion-label>
+      <ion-input 
+        formControlName="stock" 
+        type="number"
+        inputmode="numeric"
+        min="0">
+      </ion-input>
+    </ion-item>
+    <div *ngIf="productForm.get('stock')?.invalid && productForm.get('stock')?.touched" class="ion-padding-start error-message">
+      <p *ngIf="productForm.get('stock')?.errors?.['required']">El stock es obligatorio</p>
+      <p *ngIf="productForm.get('stock')?.errors?.['min']">El stock no puede ser negativo</p>
+    </div>
+
+    <!-- URL DE IMAGEN -->
+    <ion-item>
+      <ion-label position="floating">URL de Imagen *</ion-label>
+      <ion-input 
+        formControlName="imageUrl" 
+        type="url"
+        clearInput>
+      </ion-input>
+    </ion-item>
+    <div *ngIf="productForm.get('imageUrl')?.invalid && productForm.get('imageUrl')?.touched" class="ion-padding-start error-message">
+      <p *ngIf="productForm.get('imageUrl')?.errors?.['required']">La URL de la imagen es obligatoria</p>
+      <p *ngIf="productForm.get('imageUrl')?.errors?.['pattern']">Ingresa una URL válida (ej: https://...)</p>
+    </div>
+
+    <!-- VISTA PREVIA DE IMAGEN -->
+    <div *ngIf="productForm.get('imageUrl')?.valid" class="image-preview ion-margin-vertical">
+      <p class="preview-label">Vista previa:</p>
+      <ion-img 
+        [src]="productForm.get('imageUrl')?.value" 
+        alt="Vista previa del producto"
+        style="max-height: 200px; object-fit: contain; border-radius: 8px;">
+      </ion-img>
+    </div>
+
+    <!-- DESCRIPCIÓN -->
+    <ion-item>
+      <ion-label position="floating">Descripción</ion-label>
+      <ion-textarea 
+        formControlName="description" 
+        rows="4"
+        placeholder="Describe el producto...">
+      </ion-textarea>
+    </ion-item>
+
+    <!-- BOTONES -->
+    <div class="button-group ion-margin-top">
+      <ion-button 
+        expand="full" 
+        type="submit" 
+        color="primary"
+        [disabled]="productForm.invalid || isSaving">
+        <ion-spinner *ngIf="isSaving" name="crescent" style="margin-right: 8px;"></ion-spinner>
+        {{ isEditMode ? 'Guardar Cambios' : 'Crear Producto' }}
+      </ion-button>
+
+      <ion-button 
+        expand="full" 
+        type="button"
+        fill="outline"
+        (click)="goBack()">
+        Cancelar
+      </ion-button>
+    </div>
+
+  </form>
+  
+</ion-content>

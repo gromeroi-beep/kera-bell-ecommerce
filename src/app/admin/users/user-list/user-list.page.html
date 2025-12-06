@@ -1,0 +1,94 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/admin"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Gestión de Usuarios</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- Loader -->
+  <ion-spinner *ngIf="loading()" name="crescent" class="spinner-center"></ion-spinner>
+
+  <!-- Lista de Usuarios -->
+  <div *ngIf="!loading()">
+    
+    <!-- Header -->
+    <div class="users-header">
+      <h1>Usuarios Registrados</h1>
+      <p>Total: {{ users().length }} usuarios</p>
+    </div>
+
+    <!-- Si no hay usuarios -->
+    <ion-card *ngIf="users().length === 0" class="empty-state">
+      <ion-card-content>
+        <div class="empty-icon">👥</div>
+        <h2>No hay usuarios registrados</h2>
+        <p>Los usuarios aparecerán aquí cuando se registren</p>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Tabla de Usuarios -->
+    <div *ngIf="users().length > 0" class="users-list">
+      <ion-card *ngFor="let user of users(); let i = index" class="user-card">
+        <ion-card-header>
+          <div class="user-header-content">
+            <div class="user-avatar">
+              {{ (user.email || 'U').charAt(0).toUpperCase() }}
+            </div>
+            <div class="user-info">
+              <ion-card-title>{{ user.email }}</ion-card-title>
+              <p class="user-role" [ngClass]="'role-' + (user.role || 'client')">
+                {{ user.role === 'admin' ? '👑 Administrador' : '👤 Cliente' }}
+              </p>
+            </div>
+          </div>
+        </ion-card-header>
+
+        <ion-card-content>
+          <div class="user-details">
+            <div class="detail-item">
+              <span class="label">Registrado:</span>
+              <span class="value">{{ formatDate(user.createdAt) }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="label">Estado:</span>
+              <span class="value" [ngClass]="user.active !== false ? 'active' : 'inactive'">
+                {{ user.active !== false ? '✅ Activo' : '❌ Inactivo' }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Botones de Acción -->
+          <div class="action-buttons">
+            <ion-button 
+              expand="block" 
+              fill="clear" 
+              size="small"
+              (click)="changeRole(user.uid, user.role || 'client')"
+              [disabled]="isDeleting()"
+            >
+              <ion-icon name="swap-vertical" slot="start"></ion-icon>
+              Cambiar Rol
+            </ion-button>
+            <ion-button 
+              expand="block" 
+              fill="clear" 
+              size="small" 
+              color="danger"
+              (click)="deleteUser(user.uid, user.email)"
+              [disabled]="isDeleting()"
+            >
+              <ion-icon name="trash" slot="start"></ion-icon>
+              Eliminar
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+  </div>
+
+</ion-content>

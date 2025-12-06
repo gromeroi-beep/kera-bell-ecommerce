@@ -1,0 +1,101 @@
+<!-- src/app/admin/categories/category-list/category-list.page.html -->
+
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/admin"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Gestión de Categorías</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- Loader -->
+  <ion-spinner *ngIf="loading()" name="crescent" class="spinner-center"></ion-spinner>
+
+  <div *ngIf="!loading()">
+
+    <!-- Header -->
+    <div class="categories-header">
+      <h1>Categorías Registradas</h1>
+      <p>Total: {{ categories().length }} categoría(s)</p>
+    </div>
+
+    <!-- Empty State -->
+    <ion-card *ngIf="categories().length === 0" class="empty-state">
+      <ion-card-content>
+        <div class="empty-icon">📂</div>
+        <h2>No hay categorías</h2>
+        <p>Crea tu primera categoría para comenzar</p>
+        <ion-button 
+          expand="block" 
+          color="primary"
+          (click)="goToCreate()"
+        >
+          Crear Categoría
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Categories List -->
+    <div *ngIf="categories().length > 0" class="categories-list">
+      <ion-card *ngFor="let category of categories()" class="category-card">
+        
+        <ion-card-header>
+          <ion-card-title>
+            <ion-icon name="folder" class="folder-icon"></ion-icon>
+            {{ category.name }}
+          </ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+          <div class="category-info">
+            <div class="info-item">
+              <span class="label">Creada:</span>
+              <span class="value">{{ formatDate(category.createdAt) }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Actualizada:</span>
+              <span class="value">{{ formatDate(category.updatedAt) }}</span>
+            </div>
+          </div>
+        </ion-card-content>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+          <ion-button 
+            expand="block" 
+            fill="clear" 
+            size="small"
+            (click)="goToEdit(category.id)"
+          >
+            <ion-icon name="pencil" slot="start"></ion-icon>
+            Editar
+          </ion-button>
+          <ion-button 
+            expand="block" 
+            fill="clear" 
+            size="small" 
+            color="danger"
+            (click)="deleteCategory(category.id, category.name)"
+            [disabled]="isDeleting()"
+          >
+            <ion-icon name="trash" slot="start"></ion-icon>
+            Eliminar
+          </ion-button>
+        </div>
+
+      </ion-card>
+    </div>
+
+  </div>
+
+</ion-content>
+
+<!-- FAB Button para crear nueva categoría -->
+<ion-fab slot="fixed" vertical="bottom" horizontal="end">
+  <ion-fab-button class="fab-button" (click)="goToCreate()">
+    <span class="plus-icon">+</span>
+  </ion-fab-button>
+</ion-fab>

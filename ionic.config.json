@@ -1,0 +1,7 @@
+{
+  "name": "kera-bell-ecommerce",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

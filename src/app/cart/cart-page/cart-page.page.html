@@ -1,0 +1,193 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <ion-icon name="cart" style="margin-right: 8px;"></ion-icon>
+      Mi Carrito
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- CARRITO CON PRODUCTOS -->
+  <div *ngIf="(cartItems$ | async) as items">
+    
+    <!-- HEADER DEL CARRITO -->
+    <div class="cart-header ion-margin-bottom">
+      <div class="header-info">
+        <h1>Tu Carrito</h1>
+        <p class="items-count">{{ items.length }} producto(s)</p>
+      </div>
+      <ion-button 
+        *ngIf="items.length > 0"
+        fill="clear" 
+        color="danger" 
+        (click)="clearCart()">
+        <ion-icon name="trash" slot="start"></ion-icon>
+        Vaciar
+      </ion-button>
+    </div>
+
+    <!-- LISTA DE PRODUCTOS -->
+    <div *ngIf="items.length > 0; else emptyCart" class="cart-items">
+      
+      <ion-card *ngFor="let item of items" class="cart-item">
+        <ion-card-content>
+          
+          <!-- IMAGEN Y INFO DEL PRODUCTO -->
+          <div class="item-header">
+            <ion-thumbnail class="item-image">
+              <img [src]="item.product.imageUrl" [alt]="item.product.name">
+            </ion-thumbnail>
+            
+            <div class="item-info">
+              <h3 class="item-name">{{ item.product.name }}</h3>
+              <p class="item-price">
+                {{ item.product.price | currency:'PEN':'symbol':'1.2-2' }} c/u (con IGV)
+              </p>
+              <p class="item-total">
+                Subtotal: <strong>{{ (item.product.price * item.quantity) | currency:'PEN':'symbol':'1.2-2' }}</strong>
+              </p>
+            </div>
+
+            <!-- BOTÓN ELIMINAR -->
+            <ion-button 
+              size="small"
+              fill="clear"
+              color="danger" 
+              (click)="removeItem(item.product.id!)">
+              <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+            </ion-button>
+          </div>
+
+          <!-- CONTROL DE CANTIDAD - MEJORADO ESTILO AZUL -->
+          <div class="quantity-card-mini ion-margin-top">
+            <div class="quantity-header-mini">
+              <span class="quantity-title-mini">Cantidad</span>
+            </div>
+
+            <div class="quantity-content-mini">
+              <!-- Controles de cantidad -->
+              <div class="quantity-controls-mini">
+                <button 
+                  class="qty-btn-mini qty-btn-left-mini"
+                  (click)="updateItemQuantity(item.product.id!, { detail: { value: item.quantity > 1 ? item.quantity - 1 : 1 } })"
+                  [disabled]="item.quantity <= 1"
+                  type="button"
+                  aria-label="Disminuir cantidad">
+                  &lt;
+                </button>
+                
+                <div class="qty-display-box-mini">
+                  <span class="qty-value-mini">{{ item.quantity }}</span>
+                  <span class="qty-label-mini">unid.</span>
+                </div>
+                
+                <button 
+                  class="qty-btn-mini qty-btn-right-mini"
+                  (click)="updateItemQuantity(item.product.id!, { detail: { value: item.quantity + 1 } })"
+                  [disabled]="item.quantity >= item.product.stock"
+                  type="button"
+                  aria-label="Aumentar cantidad">
+                  &gt;
+                </button>
+              </div>
+
+              <!-- Input directo -->
+              <div class="qty-input-wrapper-mini">
+                <label>O ingresa directamente:</label>
+                <input 
+                  type="number" 
+                  class="qty-direct-input-mini"
+                  [ngModel]="item.quantity"
+                  (change)="updateItemQuantity(item.product.id!, { detail: { value: $event.target.value } })"
+                  [min]="1"
+                  [max]="item.product.stock">
+              </div>
+            </div>
+          </div>
+
+        </ion-card-content>
+      </ion-card>
+
+      <!-- RESUMEN DE TOTALES CON IGV 18% CORRECTO -->
+      <ion-card class="cart-summary ion-margin-top">
+        <ion-card-content>
+          
+          <!-- Total CON IGV (el precio mostrado) -->
+          <div class="summary-row">
+            <span class="summary-label">Subtotal (con IGV 18%):</span>
+            <span class="summary-value">{{ (cartTotal$ | async) | currency:'PEN':'symbol':'1.2-2' }}</span>
+          </div>
+
+          <!-- IGV DESGLOSADO (solo referencia) -->
+          <div class="summary-row igv-row" style="opacity: 0.7; font-size: 0.9rem;">
+            <span class="summary-label">IGV contenido:</span>
+            <span class="summary-value igv-value">
+              {{ ((cartTotal$ | async) || 0) * (0.18 / 1.18) | currency:'PEN':'symbol':'1.2-2' }}
+            </span>
+          </div>
+
+          <ion-item-divider class="ion-margin-vertical"></ion-item-divider>
+
+          <!-- TOTAL FINAL (SIN CAMBIOS, ya incluye IGV) -->
+          <div class="summary-row total-row">
+            <span class="summary-label">Total a Pagar:</span>
+            <span class="summary-value total-value">{{ (cartTotal$ | async) | currency:'PEN':'symbol':'1.2-2' }}</span>
+          </div>
+
+        </ion-card-content>
+      </ion-card>
+
+      <!-- ACLARACIÓN SOBRE IGV -->
+      <div class="igv-note ion-margin-top">
+        <ion-icon name="information-circle"></ion-icon>
+        <p><strong>Nota:</strong> El precio mostrado ya incluye IGV del 18%. El monto a pagar es el total sin modificaciones.</p>
+      </div>
+
+      <!-- BOTONES DE ACCIÓN -->
+      <div class="cart-actions ion-margin-top">
+        <ion-button 
+          expand="full" 
+          color="secondary"
+          size="large"
+          (click)="goToCheckout()">
+          <ion-icon name="card" slot="start"></ion-icon>
+          Proceder al Pago
+        </ion-button>
+        
+        <ion-button 
+          expand="full" 
+          fill="outline"
+          color="primary"
+          (click)="continueShopping()">
+          <ion-icon name="bag" slot="start"></ion-icon>
+          Seguir Comprando
+        </ion-button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- CARRITO VACÍO -->
+  <ng-template #emptyCart>
+    <div class="empty-cart-container ion-padding-vertical">
+      <ion-icon name="cart-outline" class="empty-icon"></ion-icon>
+      <h2 class="empty-title">Tu carrito está vacío</h2>
+      <p class="empty-subtitle">¡Explora nuestro catálogo y agrega productos!</p>
+      <ion-button 
+        fill="outline"
+        color="primary"
+        routerLink="/products"
+        class="ion-margin-top">
+        <ion-icon name="bag-handle" slot="start"></ion-icon>
+        Ver Productos
+      </ion-button>
+    </div>
+  </ng-template>
+
+</ion-content>

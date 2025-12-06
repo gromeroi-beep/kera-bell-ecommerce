@@ -1,0 +1,83 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/admin/categories"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ pageTitle }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <form [formGroup]="categoryForm" (ngSubmit)="save()" class="category-form">
+
+    <!-- CARD DEL FORMULARIO -->
+    <ion-card class="form-card">
+
+      <!-- CONTENIDO DEL FORMULARIO -->
+      <ion-card-content>
+        
+        <!-- NOMBRE DE CATEGORÍA -->
+        <div class="form-group">
+          <ion-item class="input-item">
+            <ion-label position="floating">Nombre de Categoría *</ion-label>
+            <ion-input 
+              formControlName="name" 
+              type="text"
+              placeholder="Ej: Cabello, Piel, Maquillaje"
+              clearInput
+              [value]="categoryForm.get('name')?.value">
+            </ion-input>
+          </ion-item>
+
+          <!-- MENSAJES DE ERROR -->
+          <div *ngIf="categoryForm.get('name')?.invalid && categoryForm.get('name')?.touched" class="error-messages">
+            <p *ngIf="categoryForm.get('name')?.errors?.['required']" class="error-message">
+              <ion-icon name="alert-circle"></ion-icon>
+              El nombre es obligatorio
+            </p>
+            <p *ngIf="categoryForm.get('name')?.errors?.['minlength']" class="error-message">
+              <ion-icon name="alert-circle"></ion-icon>
+              El nombre debe tener al menos 3 caracteres
+            </p>
+            <p *ngIf="categoryForm.get('name')?.errors?.['maxlength']" class="error-message">
+              <ion-icon name="alert-circle"></ion-icon>
+              El nombre no puede exceder 50 caracteres
+            </p>
+          </div>
+        </div>
+
+        <!-- BOTONES DE ACCIÓN -->
+        <div class="button-group">
+          <ion-button 
+            expand="full" 
+            type="submit" 
+            color="primary"
+            [disabled]="categoryForm.invalid || isSaving"
+            class="submit-btn">
+            <ion-spinner 
+              *ngIf="isSaving" 
+              name="crescent" 
+              style="margin-right: 8px;">
+            </ion-spinner>
+            {{ isEditMode ? 'Actualizar Categoría' : 'Crear Categoría' }}
+          </ion-button>
+
+          <ion-button 
+            expand="full" 
+            type="button"
+            fill="outline"
+            color="medium"
+            (click)="goBack()"
+            class="cancel-btn">
+            <ion-icon name="arrow-back" slot="start"></ion-icon>
+            Cancelar
+          </ion-button>
+        </div>
+
+      </ion-card-content>
+    </ion-card>
+
+  </form>
+
+</ion-content>

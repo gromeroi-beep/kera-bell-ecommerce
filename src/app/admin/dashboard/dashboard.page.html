@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Panel Administrador — Kera-Bell</ion-title>
+    <ion-buttons slot="end">
+      
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="dashboard-bg" fullscreen>
+  <div class="dashboard-inner">
+
+    <!-- Cards resumen -->
+    <div class="cards-grid">
+      <ion-card class="card-stat">
+        <ion-card-header>
+          <ion-card-title>Usuarios</ion-card-title>
+          <ion-card-subtitle>{{ usersCount() }}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          Registrados actualmente
+        </ion-card-content>
+        <ion-button expand="full" fill="clear" (click)="goTo('/admin/users')">Gestionar</ion-button>
+      </ion-card>
+
+      <ion-card class="card-stat">
+        <ion-card-header>
+          <ion-card-title>Productos</ion-card-title>
+          <ion-card-subtitle>{{ productsCount() }}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          Productos en catálogo
+        </ion-card-content>
+        <ion-button expand="full" fill="clear" (click)="goTo('/admin/products')">Gestionar</ion-button>
+      </ion-card>
+
+      <ion-card class="card-stat">
+        <ion-card-header>
+          <ion-card-title>Categorías</ion-card-title>
+          <ion-card-subtitle>{{ categoriesCount() }}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          Categorías registradas
+        </ion-card-content>
+        <ion-button expand="full" fill="clear" (click)="goTo('/admin/categories')">Gestionar</ion-button>
+      </ion-card>
+
+      <ion-card class="card-stat">
+        <ion-card-header>
+          <ion-card-title>Órdenes</ion-card-title>
+          <ion-card-subtitle>{{ ordersCount() }}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          Órdenes registradas
+        </ion-card-content>
+        <ion-button expand="full" fill="clear" (click)="goTo('/admin/orders')">Ver órdenes</ion-button>
+      </ion-card>
+    </div>
+
+  </div>
+</ion-content>

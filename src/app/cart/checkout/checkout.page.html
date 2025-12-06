@@ -1,0 +1,90 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/cart"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Verificación de Pago</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- RESUMEN DEL PEDIDO -->
+  <ion-card class="order-summary">
+    <ion-card-header>
+      <ion-card-title>Resumen de tu Pedido</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p><strong>Total: {{ cartTotal | currency:'PEN':'symbol':'1.2-2' }}</strong></p>
+      <p class="items-count">{{ cartItems.length }} producto(s)</p>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- FORMULARIO DE CHECKOUT -->
+  <form (ngSubmit)="processCheckout()">
+    
+    <!-- EMAIL DEL USUARIO -->
+    <ion-item>
+      <ion-label position="floating">Email</ion-label>
+      <ion-input 
+        type="email" 
+        [(ngModel)]="userEmail" 
+        name="email"
+        disabled>
+      </ion-input>
+    </ion-item>
+
+    <!-- DIRECCIÓN DE ENVÍO -->
+    <ion-item>
+      <ion-label position="floating">Dirección de Envío *</ion-label>
+      <ion-textarea 
+        [(ngModel)]="shippingAddress" 
+        name="shippingAddress"
+        placeholder="Ingresa tu dirección completa"
+        rows="3">
+      </ion-textarea>
+    </ion-item>
+
+    <!-- MÉTODO DE PAGO -->
+    <ion-item>
+      <ion-label>Método de Pago *</ion-label>
+      <ion-select 
+        [(ngModel)]="paymentMethod" 
+        name="paymentMethod">
+        <ion-select-option value="credit-card">Tarjeta de Crédito</ion-select-option>
+        <ion-select-option value="debit-card">Tarjeta de Débito</ion-select-option>
+        <ion-select-option value="bank-transfer">Transferencia Bancaria</ion-select-option>
+        <ion-select-option value="cash">Pago en Efectivo</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <!-- BOTONES -->
+    <div class="button-group ion-margin-top">
+      <ion-button 
+        expand="full" 
+        color="secondary"
+        type="submit"
+        [disabled]="!isFormValid() || isProcessing">
+        <ion-spinner *ngIf="isProcessing" slot="start"></ion-spinner>
+        {{ isProcessing ? 'Procesando...' : 'Completar Compra' }}
+      </ion-button>
+
+      <ion-button 
+        expand="full" 
+        fill="outline"
+        color="medium"
+        type="button"
+        (click)="goBackToCart()">
+        Volver al Carrito
+      </ion-button>
+    </div>
+
+    <!-- AVISO DE TÉRMINOS -->
+    <p class="terms-notice ion-margin-top">
+      <ion-icon name="information-circle"></ion-icon>
+      Al completar esta compra, aceptas nuestros términos y condiciones.
+    </p>
+
+  </form>
+
+</ion-content>

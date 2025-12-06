@@ -1,0 +1,124 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/admin"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Gestión de Productos</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="goToCreate()">
+        <ion-icon name="add-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- Loader -->
+  <ion-spinner *ngIf="loading()" name="crescent" class="spinner-center"></ion-spinner>
+
+  <div *ngIf="!loading()">
+
+    <!-- Search Bar -->
+    <ion-searchbar 
+      [(ngModel)]="searchTerm" 
+      placeholder="Buscar productos..."
+      debounce="300"
+      class="search-bar"
+    ></ion-searchbar>
+
+    <!-- Header -->
+    <div class="products-header">
+      <h1>Productos en Catálogo</h1>
+      <p>Total: {{ filteredProducts.length }} producto(s)</p>
+    </div>
+
+    <!-- Empty State -->
+    <ion-card *ngIf="filteredProducts.length === 0" class="empty-state">
+      <ion-card-content>
+        <div class="empty-icon">📦</div>
+        <h2>No hay productos</h2>
+        <p>Crea tu primer producto para comenzar</p>
+        <ion-button 
+          expand="block" 
+          color="primary"
+          (click)="goToCreate()"
+        >
+          Crear Producto
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Products Grid -->
+    <div *ngIf="filteredProducts.length > 0" class="products-grid">
+      <ion-card *ngFor="let product of filteredProducts" class="product-card">
+        
+        <!-- Imagen del Producto -->
+        <div class="product-image-container">
+          <img 
+            [src]="product.imageUrl || 'assets/img/placeholder.png'" 
+            [alt]="product.name"
+            class="product-image"
+          />
+          <div class="product-badge">
+            <span class="stock-badge" [ngClass]="product.stock && product.stock > 0 ? 'in-stock' : 'out-of-stock'">
+              <ion-icon [name]="product.stock && product.stock > 0 ? 'checkmark-circle' : 'close-circle'"></ion-icon>
+              {{ product.stock && product.stock > 0 ? product.stock + ' Stock' : 'Agotado' }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Info del Producto -->
+        <ion-card-header>
+          <ion-card-title>{{ product.name }}</ion-card-title>
+          <ion-card-subtitle>Precio: <strong>{{ product.price | currency:'PEN':'symbol':'1.2-2' }}</strong></ion-card-subtitle>
+        </ion-card-header>
+
+        <ion-card-content>
+          <p class="description">{{ product.description | slice:0:100 }}...</p>
+          
+          <div class="product-meta">
+            <span class="meta-item">
+              <ion-icon name="calendar"></ion-icon>
+              {{ formatDate(product.createdAt) }}
+            </span>
+          </div>
+        </ion-card-content>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+          <ion-button 
+            expand="block" 
+            fill="clear" 
+            size="small"
+            (click)="goToEdit(product.id)"
+          >
+            <ion-icon name="pencil" slot="start"></ion-icon>
+            Editar
+          </ion-button>
+          <ion-button 
+            expand="block" 
+            fill="clear" 
+            size="small" 
+            color="danger"
+            (click)="deleteProduct(product.id, product.name)"
+            [disabled]="isDeleting()"
+          >
+            <ion-icon name="trash" slot="start"></ion-icon>
+            Eliminar
+          </ion-button>
+        </div>
+
+      </ion-card>
+    </div>
+
+  </div>
+
+</ion-content>
+
+<!-- FAB Button para crear nuevo producto -->
+<ion-fab slot="fixed" vertical="bottom" horizontal="end">
+  <ion-fab-button class="fab-button" (click)="goToCreate()">
+    <span class="plus-icon">+</span>
+  </ion-fab-button>
+</ion-fab>

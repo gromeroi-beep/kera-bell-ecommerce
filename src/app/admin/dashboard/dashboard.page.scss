@@ -1,0 +1,61 @@
+.dashboard-bg {
+  --background: #faf6fb;
+  padding: 16px;
+}
+
+.dashboard-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Grid de tarjetas */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.card-stat {
+  --ion-card-background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+
+.card-stat ion-card-subtitle {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #ff3d9e;
+}
+
+/* Recientes */
+.recent-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.recent-column h3 {
+  margin: 6px 0;
+  color: #333;
+}
+
+.recent-column ion-item {
+  --background: white;
+  border-radius: 10px;
+  margin-bottom: 6px;
+}
+
+/* debug screenshot */
+.debug-screenshot {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.debug-screenshot img {
+  max-width: 320px;
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}

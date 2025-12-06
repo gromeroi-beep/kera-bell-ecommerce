@@ -1,0 +1,41 @@
+<div class="register-container">
+
+  <h2>Crear Cuenta</h2>
+
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+    <div class="form-group">
+      <label>Correo</label>
+      <input type="email" formControlName="email" placeholder="tu@correo.com">
+      <small *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="error">
+        Ingresa un correo válido.
+      </small>
+    </div>
+
+    <div class="form-group">
+      <label>Contraseña</label>
+      <input type="password" formControlName="password" placeholder="Mínimo 6 caracteres">
+      <small *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="error">
+        La contraseña debe tener mínimo 6 caracteres.
+      </small>
+    </div>
+
+    <div class="form-group">
+      <label>Confirmar Contraseña</label>
+      <input type="password" formControlName="confirmPassword">
+      <small *ngIf="registerForm.errors?.['mismatch'] && registerForm.get('confirmPassword')?.touched" class="error">
+        Las contraseñas no coinciden.
+      </small>
+    </div>
+
+    <button type="submit" [disabled]="isLoading">
+      {{ isLoading ? 'Creando cuenta...' : 'Registrarme' }}
+    </button>
+
+    <p class="error-message" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </p>
+
+  </form>
+
+</div>
